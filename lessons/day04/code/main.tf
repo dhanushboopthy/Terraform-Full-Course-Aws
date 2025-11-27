@@ -1,42 +1,28 @@
-# Configure the AWS Provider
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
-      version = "~> 6.0"
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
   }
-}
 
-provider "aws" {
-  # Configuration options
-    region = "ca-central-1"
-}
-
-# backend configuration
-terraform {
   backend "s3" {
-    bucket         = "erraform-state-1754513244"
+    bucket         = "terraform-state-dhanush-12345"   
     key            = "dev/terraform.tfstate"
-    region         = "ca-central-1"
-    use_lockfile  = "true"
+    region         = "us-east-2"
     encrypt        = true
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+}
 
-# Simple test resource to verify remote backend
-resource "aws_s3_bucket" "test_backend" {
-  bucket = "test-remote-backend-${random_string.bucket_suffix.result}"
+resource "aws_s3_bucket" "backend" {
+  bucket = "test-remote-backend-dhanush-day04"
 
   tags = {
     Name        = "Test Backend Bucket"
     Environment = "dev"
   }
-}
-
-resource "random_string" "bucket_suffix" {
-  length  = 8
-  special = false
-  upper   = false
 }
